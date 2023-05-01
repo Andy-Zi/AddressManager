@@ -21,7 +21,9 @@ function useAutocomplete(
     }
 
     // Remove illegal characters from searchTerm
-    const sanitizedSearchTerm = searchTerm.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const sanitizedSearchTerm = searchTerm
+      .trim()
+      .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const searchRegex = new RegExp(sanitizedSearchTerm, 'i');
     const filteredData = data.filter(
       (item) =>

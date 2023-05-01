@@ -1,17 +1,16 @@
-// src/useAutocomplete.ts
 import { useState, useEffect } from 'react';
 
-type AutocompleteHook = {
+type useAutocompleteHook = {
   searchTerm: string;
   // eslint-disable-next-line no-undef
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   suggestions: string[];
 };
 
-function Autocomplete(
+function useAutocomplete(
   data: string[],
   maxSuggestions: number = 5
-): AutocompleteHook {
+): useAutocompleteHook {
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
@@ -21,7 +20,9 @@ function Autocomplete(
       return;
     }
 
-    const searchRegex = new RegExp(searchTerm.trim(), 'i');
+    // Remove illegal characters from searchTerm
+    const sanitizedSearchTerm = searchTerm.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const searchRegex = new RegExp(sanitizedSearchTerm, 'i');
     const filteredData = data.filter(
       (item) =>
         searchRegex.test(item) &&
@@ -33,4 +34,5 @@ function Autocomplete(
   return { searchTerm, setSearchTerm, suggestions };
 }
 
-export default Autocomplete;
+
+export default useAutocomplete;

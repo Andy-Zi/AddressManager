@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Autocomplete from './Autocomplete';
+import useAutocomplete from '../hooks/useAutocomplete';
 
 // Dummy data for autocomplete suggestions
 const clientNames = [
@@ -17,7 +17,8 @@ const clientNames = [
 ];
 
 function Navbar() {
-  const { searchTerm, setSearchTerm, suggestions } = Autocomplete(clientNames);
+  const { searchTerm, setSearchTerm, suggestions } =
+    useAutocomplete(clientNames);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const searchInputRef = useRef<HTMLInputElement>(null);
 

@@ -36,5 +36,4 @@ function useAutocomplete(
   return { searchTerm, setSearchTerm, suggestions };
 }
 
-
 export default useAutocomplete;

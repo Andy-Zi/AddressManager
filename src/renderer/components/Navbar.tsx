@@ -1,5 +1,5 @@
-// src/Navbar.tsx
 import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Autocomplete from './Autocomplete';
 
 // Dummy data for autocomplete suggestions
@@ -16,7 +16,7 @@ const clientNames = [
   'Judy',
 ];
 
-function Navbar(): JSX.Element {
+function Navbar() {
   const { searchTerm, setSearchTerm, suggestions } = Autocomplete(clientNames);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -38,7 +38,9 @@ function Navbar(): JSX.Element {
   function handleKeyDown(e: React.KeyboardEvent): void {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setHighlightedIndex((prevIndex) => Math.min(prevIndex + 1, suggestions.length - 1));
+      setHighlightedIndex((prevIndex) =>
+        Math.min(prevIndex + 1, suggestions.length - 1)
+      );
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setHighlightedIndex((prevIndex) => Math.max(prevIndex - 1, -1));
@@ -54,13 +56,30 @@ function Navbar(): JSX.Element {
   }, [suggestions]);
 
   return (
-    <nav style={styles.navbar}>
-      <ul style={styles.ul}>
-        <li style={styles.li}><a href="/" style={styles.a}>Home</a></li>
-        <li style={styles.li}><a href="/clients" style={styles.a}>Clients</a></li>
-        <li style={styles.li}><a href="/settings" style={styles.a}>Settings</a></li>
+    <nav className="bg-gray-800 px-4 py-2 flex justify-between items-center">
+      <ul className="flex space-x-4">
+        <li>
+          <Link to="/" className="text-white text-lg no-underline">
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link to="/clients" className="text-white text-lg no-underline">
+            Clients
+          </Link>
+        </li>
+        <li>
+          <Link to="/listview" className="text-white text-lg no-underline">
+            ListView
+          </Link>
+        </li>
+        <li>
+          <Link to="/settings" className="text-white text-lg no-underline">
+            Settings
+          </Link>
+        </li>
       </ul>
-      <form onSubmit={handleSearchSubmit} style={styles.searchForm}>
+      <form onSubmit={handleSearchSubmit} className="flex">
         <input
           ref={searchInputRef}
           type="text"
@@ -68,16 +87,21 @@ function Navbar(): JSX.Element {
           value={searchTerm}
           onChange={handleSearchChange}
           onKeyDown={handleKeyDown}
-          style={styles.searchInput}
+          className="rounded-l px-3 py-1 border border-r-0 border-gray-300 focus:outline-none focus:border-indigo-500"
         />
-        <button type="submit" style={styles.searchButton}>Search</button>
+        <button
+          type="submit"
+          className="bg-gray-700 rounded-r px-4 py-1 text-white border border-l-0 border-gray-300 cursor-pointer"
+        >
+          Search
+        </button>
       </form>
       {suggestions.length > 0 && (
-        <ul style={styles.suggestions}>
+        <ul className="absolute right-24 top-14 bg-white border border-gray-300 rounded shadow-md z-10">
           {suggestions.map((suggestion, index) => (
             <li
               key={index}
-              style={index === highlightedIndex ? styles.highlightedSuggestion : styles.suggestion}
+              className={`px-4 py-1 cursor-pointer ${index === highlightedIndex ? 'bg-gray-200' : ''}`}
               onClick={() => handleSuggestionClick(suggestion)}
               onMouseEnter={() => setHighlightedIndex(index)}
             >
@@ -88,69 +112,6 @@ function Navbar(): JSX.Element {
       )}
     </nav>
   );
-}
-
-const styles = {
-  navbar: {
-    backgroundColor: '#333',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: '60px',
-    padding: '0 20px',
-  },
-  ul: {
-    display: 'flex',
-    listStyle: 'none',
-    margin: 0,
-    padding: 0,
-  },
-  li: {
-    margin: '0 10px',
-  },
-  a: {
-    color: 'white',
-    textDecoration: 'none',
-    fontSize: '18px',
-  },
-  searchForm: {
-    display: 'flex',
-  },
-  searchInput: {
-    height: '30px',
-    border: '1px solid #ccc',
-    borderRadius: '3px',
-    paddingLeft: '5px',
-  },
-  searchButton: {
-    marginLeft: '5px',
-    height: '30px',
-    backgroundColor: '#555',
-    color: 'white',
-    border: 'none',
-    borderRadius: '3px',
-    cursor: 'pointer',
-  },
-  suggestions: {
-    position: 'absolute',
-    top: '60px',
-    right: '70px',
-    backgroundColor: 'white',
-    border: '1px solid #ccc',
-    borderRadius: '3px',
-    listStyle: 'none',
-    padding: '5px',
-    zIndex: 1,
-  },
-  suggestion: {
-    padding: '5px',
-    cursor: 'pointer',
-  },
-  highlightedSuggestion: {
-    padding: '5px',
-    cursor: 'pointer',
-    backgroundColor: '#f0f0f0',
-  },
 }
 
 export default Navbar;

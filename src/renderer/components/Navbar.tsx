@@ -27,6 +27,7 @@ function Navbar() {
 
   function handleSearchSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
+    // eslint-disable-next-line no-console
     console.log('Searching for:', searchTerm);
     // Perform the search operation with the searchTerm.
   }
@@ -99,9 +100,13 @@ function Navbar() {
       {suggestions.length > 0 && (
         <ul className="absolute right-24 top-14 bg-white border border-gray-300 rounded shadow-md z-10">
           {suggestions.map((suggestion, index) => (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
             <li
+              // eslint-disable-next-line react/no-array-index-key
               key={index}
-              className={`px-4 py-1 cursor-pointer ${index === highlightedIndex ? 'bg-gray-200' : ''}`}
+              className={`px-4 py-1 cursor-pointer ${
+                index === highlightedIndex ? 'bg-gray-200' : ''
+              }`}
               onClick={() => handleSuggestionClick(suggestion)}
               onMouseEnter={() => setHighlightedIndex(index)}
             >

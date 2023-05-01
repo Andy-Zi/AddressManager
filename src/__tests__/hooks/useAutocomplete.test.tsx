@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import useAutocomplete from '../../renderer/hooks/useAutocomplete';
 
 describe('Autocomplete', () => {

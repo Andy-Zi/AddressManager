@@ -14,6 +14,8 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+import configs from './utils/configs';
+import { createSettingsFileIfNotExist } from './utils/settings';
 
 class AppUpdater {
   constructor() {
@@ -127,6 +129,7 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(() => {
+    createSettingsFileIfNotExist({ app, configs });
     createWindow();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the

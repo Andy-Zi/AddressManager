@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { AiFillHome, AiOutlineUnorderedList } from 'react-icons/ai';
+import { BsFillPeopleFill } from 'react-icons/bs';
+import { IoMdSettings } from 'react-icons/io';
 import useAutocomplete from '../hooks/useAutocomplete';
-
+import NavbarIcon from './NavbarIcon';
 // Dummy data for autocomplete suggestions
 const clientNames = [
   'Alice',
@@ -16,7 +18,7 @@ const clientNames = [
   'Judy',
 ];
 
-function Navbar() {
+export default function Navbar() {
   const { searchTerm, setSearchTerm, suggestions } =
     useAutocomplete(clientNames);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -58,30 +60,18 @@ function Navbar() {
   }, [suggestions]);
 
   return (
-    <nav className="bg-gray-800 px-4 py-2 flex justify-between items-center">
-      <ul className="flex space-x-4">
-        <li>
-          <Link to="/" className="text-white text-lg no-underline">
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link to="/clients" className="text-white text-lg no-underline">
-            Clients
-          </Link>
-        </li>
-        <li>
-          <Link to="/listview" className="text-white text-lg no-underline">
-            ListView
-          </Link>
-        </li>
-        <li>
-          <Link to="/settings" className="text-white text-lg no-underline">
-            Settings
-          </Link>
-        </li>
+    <nav className="navbar">
+      <ul className="navbar-list">
+        <NavbarIcon icon={AiFillHome} to="/" label="Home" />
+        <NavbarIcon icon={BsFillPeopleFill} to="/clients" label="Clients" />
+        <NavbarIcon
+          icon={AiOutlineUnorderedList}
+          to="/listView"
+          label="ListView"
+        />
+        <NavbarIcon icon={IoMdSettings} to="/settings" label="Settings" />
       </ul>
-      <form onSubmit={handleSearchSubmit} className="flex">
+      <form onSubmit={handleSearchSubmit} className="navbar-searchBox">
         <input
           ref={searchInputRef}
           type="text"
@@ -89,24 +79,23 @@ function Navbar() {
           value={searchTerm}
           onChange={handleSearchChange}
           onKeyDown={handleKeyDown}
-          className="rounded-l px-3 py-1 border border-r-0 border-gray-300 focus:outline-none focus:border-indigo-500"
+          className="navbar-searchBox-input"
         />
-        <button
-          type="submit"
-          className="bg-gray-700 rounded-r px-4 py-1 text-white border border-l-0 border-gray-300 cursor-pointer"
-        >
+        <button type="submit" className="navbar-searchBox-button">
           Search
         </button>
       </form>
       {suggestions.length > 0 && (
-        <ul className="absolute right-24 top-14 bg-white border border-gray-300 rounded shadow-md z-10">
+        <ul className="navbar-searchBox-suggestions">
           {suggestions.map((suggestion, index) => (
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
             <li
               // eslint-disable-next-line react/no-array-index-key
               key={index}
-              className={`px-4 py-1 cursor-pointer ${
-                index === highlightedIndex ? 'bg-gray-200' : ''
+              className={`navbar-searchBox-suggestions-item ${
+                index === highlightedIndex
+                  ? 'navbar-searchBox-suggestions-item-highlighted'
+                  : ''
               }`}
               onClick={() => handleSuggestionClick(suggestion)}
               onMouseEnter={() => setHighlightedIndex(index)}
@@ -119,5 +108,3 @@ function Navbar() {
     </nav>
   );
 }
-
-export default Navbar;

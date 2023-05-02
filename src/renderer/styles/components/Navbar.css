@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .navbar {
+    @apply bg-gray-800 px-4 py-2 flex justify-between items-center
+  }
+
+  .navbar-list {
+    @apply flex space-x-6
+  }
+
+  .navbar-icon {
+    @apply text-gray-400 text-lg no-underline flex align-middle justify-center text-[50px]
+  }
+
+  .navbar-icon-label {
+    @apply absolute w-auto p-2 m-2 min-w-max top-14 rounded-md shadow-md
+    text-white bg-gray-900
+    text-xs font-bold
+    transition-all duration-200 scale-0 origin-top
+  }
+
+  .navbar-searchBox {
+    @apply flex
+  }
+
+  .navbar-searchBox-input {
+    @apply rounded-l px-3 py-1 border border-r-0 border-gray-300 focus:outline-none focus:border-indigo-500 bg-gray-200
+  }
+
+  .navbar-searchBox-button {
+    @apply bg-gray-700 rounded-r px-4 py-1 text-white border border-l-0 border-gray-300 cursor-pointer
+  }
+
+  .navbar-searchBox-suggestions {
+    @apply absolute right-24 top-14 bg-white border border-gray-300 rounded shadow-md z-10
+  }
+
+  .navbar-searchBox-suggestions-item {
+    @apply px-4 py-1 cursor-pointer
+  }
+
+  .navbar-searchBox-suggestions-item-highlighted {
+    @apply bg-gray-200
+  }
+
+}

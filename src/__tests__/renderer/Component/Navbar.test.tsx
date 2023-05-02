@@ -3,8 +3,7 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import Navbar from '../../renderer/components/Navbar';
-// import Autocomplete from '../renderer/components/Autocomplete';
+import Navbar from '../../../renderer/components/Navbar';
 
 describe('Navbar', () => {
   // const clientNames = [
@@ -55,7 +54,7 @@ describe('Navbar', () => {
         <Routes>
           <Route path="/" element={<div>HomePage</div>} />
           <Route path="/clients" element={<div>ClientsPage</div>} />
-          <Route path="/listview" element={<div>ListViewPage</div>} />
+          <Route path="/listView" element={<div>ListViewPage</div>} />
           <Route path="/settings" element={<div>SettingsPage</div>} />
         </Routes>
       </MemoryRouter>

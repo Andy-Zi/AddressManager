@@ -1,5 +1,12 @@
-*{
-Margin:0;
-Padding:0;
-Border:0;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
+

@@ -1,7 +1,7 @@
-export default function Listview() {
+export default function ListView() {
   return (
-    <div className="Listview">
-      <h1>Listview</h1>
+    <div className="ListView">
+      <h1>ListView</h1>
     </div>
   );
 }

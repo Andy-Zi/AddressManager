@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import useAutocomplete from '../../renderer/hooks/useAutocomplete';
+import useAutocomplete from '../../../renderer/hooks/useAutocomplete';
 
 describe('Autocomplete', () => {
   const data = [

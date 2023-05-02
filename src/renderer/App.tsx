@@ -7,7 +7,7 @@ import './styles/components/Navbar.css';
 import Home from './views/Home';
 import Clients from './views/Clients';
 import Settings from './views/Settings';
-import ListView from './views/ListView';
+import ListView from './views/ListViews';
 
 export default function App() {
   return (

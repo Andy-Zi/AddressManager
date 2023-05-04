@@ -9,13 +9,19 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+} from 'electron-devtools-installer';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import configs from './utils/configs';
 import { createSettingsFileIfNotExist } from './utils/settings';
+import IpcMainOn from './utils/IpcMainFunctions/IpcMainOn';
+import IpcHandler from './utils/IpcMainFunctions/IpcMainHandler';
+import DatabaseClient from './Database/DatabaseClient/DatabaseClient';
 
 class AppUpdater {
   constructor() {
@@ -27,11 +33,7 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
+IpcMainOn();
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -126,10 +128,25 @@ app.on('window-all-closed', () => {
   }
 });
 
+const dbPath = path.join(configs.saveLocation, 'KundenDB');
+const databaseClient = new DatabaseClient(dbPath);
+global.database = databaseClient;
+
+app
+  .whenReady()
+  .then(() => {
+    // eslint-disable-next-line promise/no-nesting
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log('An error occurred: ', err));
+  })
+  .catch(console.log);
+
 app
   .whenReady()
   .then(() => {
     createSettingsFileIfNotExist({ app, configs });
+    IpcHandler();
     createWindow();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the

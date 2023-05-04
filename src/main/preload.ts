@@ -24,6 +24,22 @@ const electronHandler = {
   },
 };
 
+const settingsHandler = {
+  importPA2k(pa2kPath: string, zipPath: string): Promise<void> {
+    return ipcRenderer.invoke('settings:import:pa2k', pa2kPath, zipPath);
+  },
+};
+
+const generalHandler = {
+  openFileDialog(): Promise<any> {
+    return ipcRenderer.invoke('general:open-file-dialog');
+  },
+};
+
 contextBridge.exposeInMainWorld('electron', electronHandler);
+contextBridge.exposeInMainWorld('settings', settingsHandler);
+contextBridge.exposeInMainWorld('general', generalHandler);
 
 export type ElectronHandler = typeof electronHandler;
+export type SettingsHandler = typeof settingsHandler;
+export type GeneralHandler = typeof generalHandler;

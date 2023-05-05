@@ -2,6 +2,7 @@ import {
   ElectronHandler,
   GeneralHandler,
   SettingsHandler,
+  DatabaseHandler,
 } from '../main/preload';
 
 declare global {
@@ -10,6 +11,7 @@ declare global {
     electron: ElectronHandler;
     settings: SettingsHandler;
     general: GeneralHandler;
+    database: DatabaseHandler;
   }
 }
 

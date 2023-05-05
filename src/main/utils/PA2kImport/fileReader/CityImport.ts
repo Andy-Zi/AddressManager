@@ -1,4 +1,3 @@
-import path from 'path';
 import fs from 'fs';
 
 import City from '../../../Database/DataSchema/City';
@@ -9,8 +8,9 @@ export default class CityImport {
   fileContentInBin: string;
 
   constructor(filepath: string) {
-    const file = 'PLZ_2021.csv';
-    this.filepath = path.join(filepath, file);
+    // const file = 'PLZ_2021.csv';
+    // this.filepath = path.join(filepath, file);
+    this.filepath = filepath;
     this.fileContentInBin = fs.readFileSync(this.filepath, 'utf-8');
   }
 

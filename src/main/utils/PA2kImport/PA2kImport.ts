@@ -30,7 +30,7 @@ function PA2kImport(
 
     kunde.Autos.push(auto);
 
-    database.write.UpdateKunde(kunde);
+    database.write?.UpdateKunde(kunde);
 
     try {
       autoLookup[Number(dataset.NUMER)] = auto.id;
@@ -48,7 +48,7 @@ function PA2kImport(
       auto.Notiz = DbtData.getNote(Number(dataset.MEMO1));
     }
 
-    database.write.NewAuto(auto);
+    database.write?.NewAuto(auto);
   });
 
   const DatTermine = new TerminDAT(pa2kPath).Import();
@@ -60,6 +60,7 @@ function PA2kImport(
   });
 
   database.disableMemoryMode();
+  return true;
 }
 
 export default PA2kImport;

@@ -1,6 +1,14 @@
 // Disable no-unused-vars, broken for spread args
 /* eslint no-unused-vars: off */
-import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
+import {
+  contextBridge,
+  ipcRenderer,
+  IpcRendererEvent,
+  dialog,
+  MessageBoxOptions,
+  MessageBoxReturnValue,
+} from 'electron';
+import Kunde from './Database/DataSchema/Kunde';
 
 export type Channels = 'ipc-example';
 
@@ -25,7 +33,7 @@ const electronHandler = {
 };
 
 const settingsHandler = {
-  importPA2k(pa2kPath: string, zipPath: string): Promise<void> {
+  importPA2k(pa2kPath: string, zipPath: string): Promise<boolean> {
     return ipcRenderer.invoke('settings:import:pa2k', pa2kPath, zipPath);
   },
 };
@@ -34,12 +42,26 @@ const generalHandler = {
   openFileDialog(): Promise<any> {
     return ipcRenderer.invoke('general:open-file-dialog');
   },
+  openFolderDialog(): Promise<any> {
+    return ipcRenderer.invoke('general:open-folder-dialog');
+  },
+  showMessageBox(options: MessageBoxOptions): Promise<MessageBoxReturnValue> {
+    return ipcRenderer.invoke('general:show-message-box', options);
+  },
+};
+
+const databaseHandler = {
+  getKundenList(): Promise<Kunde[]> {
+    return ipcRenderer.invoke('db:read:KundenList');
+  },
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
 contextBridge.exposeInMainWorld('settings', settingsHandler);
 contextBridge.exposeInMainWorld('general', generalHandler);
+contextBridge.exposeInMainWorld('database', databaseHandler);
 
 export type ElectronHandler = typeof electronHandler;
 export type SettingsHandler = typeof settingsHandler;
 export type GeneralHandler = typeof generalHandler;
+export type DatabaseHandler = typeof databaseHandler;

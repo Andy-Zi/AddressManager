@@ -90,10 +90,12 @@ export default class DatabaseReader extends DatabaseBaseModule {
     return convertKundeDBToData(this.db, kunde);
   }
 
-  // public Kunden(): Kunde[] {
-  //   this.ReadDB({ kunde: true });
-  //   return this.KundenDB.data?.Kunde ?? [];
-  // }
+  public getKundenList(): Kunde[] {
+    this.ReadDB({ kunde: true });
+    const dbkunde = this.KundenDB.data?.Kunde ?? [];
+    const kunde = dbkunde.map((k) => convertKundeDBToData(this.db, k));
+    return kunde;
+  }
 
   // public KundeByID(id: string): Kunde | null {
   //   this.ReadDB({ kunde: true });

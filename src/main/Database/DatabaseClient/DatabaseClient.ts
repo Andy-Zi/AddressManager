@@ -13,19 +13,30 @@ import {
 } from './DBschema/DBSchema';
 
 export default class DatabaseClient {
-  private KundenDB: LowSync<KundeDBSchema>;
+  // eslint-disable-next-line no-use-before-define
+  static instance: DatabaseClient;
 
-  private AutoDB: LowSync<AutoDBSchema>;
+  private KundenDB: LowSync<KundeDBSchema> | undefined = undefined;
 
-  private TerminDB: LowSync<TerminDBSchema>;
+  private AutoDB: LowSync<AutoDBSchema> | undefined = undefined;
 
-  private CityDB: LowSync<CityDBSchema>;
+  private TerminDB: LowSync<TerminDBSchema> | undefined = undefined;
 
-  public read: DatabaseReader;
+  private CityDB: LowSync<CityDBSchema> | undefined = undefined;
 
-  public write: DatabaseWriter;
+  public read: DatabaseReader | undefined = undefined;
 
-  public constructor(DBpath: string) {
+  public write: DatabaseWriter | undefined = undefined;
+
+  public constructor(DBpath: string = '') {
+    if (DatabaseClient.instance) {
+      // eslint-disable-next-line no-constructor-return
+      return DatabaseClient.instance;
+    }
+    this.init(DBpath);
+  }
+
+  public init(DBpath: string): void {
     if (!fs.existsSync(DBpath)) {
       fs.mkdirSync(DBpath);
     }
@@ -77,6 +88,8 @@ export default class DatabaseClient {
       this.TerminDB,
       this.CityDB
     );
+
+    DatabaseClient.instance = this;
   }
 
   public enableMemoryMode(): void {

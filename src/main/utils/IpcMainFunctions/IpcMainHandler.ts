@@ -1,25 +1,30 @@
-import { BrowserWindow, app, dialog, ipcMain } from 'electron';
+import { app, dialog, ipcMain } from 'electron';
 
 import handlePA2kImport from './Functions/settingsHandler/handlePA2kImport';
+import {
+  openFileDialog,
+  openFolderDialog,
+} from './Functions/generalHandler/generalHandler';
+import { KundenList } from './Functions/databaseHandler/databaseHandler';
 
 function IpcSettingsHandler() {
   ipcMain.handle(
     'settings:import:pa2k',
-    (event, pa2kPath: string, zipPath: string) =>
-      handlePA2kImport(pa2kPath, zipPath)
+    (event, pa2kPath: string, zipPath: string): Promise<boolean> => {
+      return handlePA2kImport(pa2kPath, zipPath);
+    }
   );
 }
 
 function IpcGeneralHandler() {
+  ipcMain.handle('general:open-folder-dialog', async (event) => {
+    return openFolderDialog(event);
+  });
   ipcMain.handle('general:open-file-dialog', async (event) => {
-    const mainWindow = BrowserWindow.fromWebContents(event.sender);
-    let result = null;
-    if (mainWindow) {
-      result = await dialog.showOpenDialog(mainWindow, {
-        properties: ['openDirectory'],
-      });
-    }
-    return result;
+    return openFileDialog(event);
+  });
+  ipcMain.handle('general:show-message-box', async (event, options) => {
+    return dialog.showMessageBox(options);
   });
 }
 
@@ -29,6 +34,9 @@ function IpcDatabaseHandler() {
   // ipcMain.handle('db:read:KundeByID', (event, id: string) =>
   //   handleGetClientByID(db, id)
   // );
+  ipcMain.handle('db:read:KundenList', async () => {
+    return KundenList();
+  });
 }
 
 export default function IpcHandler() {

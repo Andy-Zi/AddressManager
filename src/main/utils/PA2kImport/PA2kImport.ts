@@ -28,7 +28,7 @@ function PA2kImport(
     const kunde = initKunde(database, dataset);
     const auto = initAuto(kunde, dataset);
 
-    kunde.Autos.push(auto);
+
 
     database.write?.UpdateKunde(kunde);
 
@@ -44,20 +44,20 @@ function PA2kImport(
       });
     }
 
-    if (dataset.MEMO1) {
-      auto.Notiz = DbtData.getNote(Number(dataset.MEMO1));
+    if (dataset.MEMO0) {
+      auto.Notiz = DbtData.getNote(Number(dataset.MEMO0));
     }
 
-    database.write?.NewAuto(auto);
+    kunde.Autos.push(auto);
   });
 
   const DatTermine = new TerminDAT(pa2kPath).Import();
   const DbtTermine = new TerminDBT(pa2kPath);
-
-  DatTermine.forEach((dataset) => {
-    const termin = initTermin(database, autoLookup, dataset, DbtTermine);
-    database.write?.NewTermin(termin);
-  });
+  // TODO: Fix Termin Import
+  // DatTermine.forEach((dataset) => {
+  //   const termin = initTermin(database, autoLookup, dataset, DbtTermine);
+  //   database.write?.NewTermin(termin);
+  // });
 
   database.disableMemoryMode();
   return true;

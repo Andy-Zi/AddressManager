@@ -8,6 +8,7 @@ export default function initKunde(
 ): Kunde {
   const kunde = dataBase.read?.KundeByName(dataset.NAME1);
   if (kunde) {
+    // TODO: Check for updates
     return kunde;
   }
   const newKunde = new Kunde({

@@ -8,7 +8,7 @@ import {
   MessageBoxOptions,
   MessageBoxReturnValue,
 } from 'electron';
-import ListViewKunde from '../main/Database/DataSchema/ListViewKunde';
+import Kunde from '../main/Database/DataSchema/Kunde';
 import Auto from './Database/DataSchema/Auto';
 
 export type Channels = 'ipc-example';
@@ -52,11 +52,11 @@ const generalHandler = {
 };
 
 const databaseHandler = {
-  getKundenList(): Promise<ListViewKunde[]> {
+  getKundenList(): Promise<Kunde[]> {
     return ipcRenderer.invoke('db:read:KundenList');
   },
-  getAutosByKundeID(id: string): Promise<Auto[]> {
-    return ipcRenderer.invoke('db:read:AutosByKundeID', id);
+  readKundeByID(id: string): Promise<Kunde> {
+    return ipcRenderer.invoke('db:read:KundeByID', id);
   },
 };
 

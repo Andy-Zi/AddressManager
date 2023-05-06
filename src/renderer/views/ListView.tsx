@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import ListViewKunde from '../../main/Database/DataSchema/ListViewKunde';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import Kunde from '../../main/Database/DataSchema/Kunde';
 
 export default function ListView() {
-  const [Kunden, setKunden] = useState<ListViewKunde[]>([]);
-  const [fetchedAutos, setFetchedAutos] = useState<{ [key: string]: any[] }>(
-    {}
-  );
-  const [expandedKunde, setExpandedKunde] = useState<string | null>(null);
+  const [Kunden, setKunden] = useState<Kunde[]>([]);
+  const [expandedKunde, setExpandedKunde] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchKunden = async () => {
@@ -19,15 +17,11 @@ export default function ListView() {
     fetchKunden();
   }, []);
 
-  const toggleDropdown = async (id: string) => {
-    if (expandedKunde === id) {
-      setExpandedKunde(null);
+  const toggleDropdown = (id: string) => {
+    if (expandedKunde.includes(id)) {
+      setExpandedKunde(expandedKunde.filter((kundeId) => kundeId !== id));
     } else {
-      setExpandedKunde(id);
-      if (!fetchedAutos[id]) {
-        const autos = await window.database?.getAutosByKundeID(id);
-        setFetchedAutos((prev) => ({ ...prev, [id]: autos }));
-      }
+      setExpandedKunde([...expandedKunde, id]);
     }
   };
 
@@ -42,30 +36,42 @@ export default function ListView() {
             className="py-4"
             onClick={() => toggleDropdown(kunde.id)}
           >
-            <div className="space-y-1">
-              <h2 className="text-xl font-semibold">{kunde.Name?.join(' ')}</h2>
-              <p className="text-gray-600">ID: {kunde.id}</p>
-              <p className="text-gray-600">
-                Phone: {kunde.Telefon?.join(', ')}
-              </p>
-            </div>
-
-            {expandedKunde === kunde.id && fetchedAutos[kunde.id] && (
+            <Link to={`/singleView/${kunde.id}`} className="block">
+              <div className="space-y-1">
+                <h2 className="text-xl font-semibold">
+                  {kunde.Name?.join(' ')}
+                </h2>
+                {/* TODO: Why is ErstelltAm here a string and no data? */}
+                <p className="text-gray-600">Erstellt am: {kunde.ErstelltAm}</p>
+                <p className="text-gray-600">
+                  Phone: {kunde.Telefon?.join(', ')}
+                </p>
+                <p className="text-gray-600">
+                  Street: {kunde.Straße} {kunde.Ort.PLZ} {kunde.Ort.Ort}
+                </p>
+              </div>
+            </Link>
+            <button
+              type="button"
+              className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2"
+              onClick={() => toggleDropdown(kunde.id)}
+            >
+              Autos
+            </button>
+            {expandedKunde.includes(kunde.id) && (
               <div className="bg-gray-100 rounded-md mt-2 p-4 space-y-2">
-                {fetchedAutos[kunde.id].map((auto) => (
-                  <div
-                    key={auto.id}
-                    className="border border-gray-300 p-2 rounded-md"
-                  >
-                    <p className="text-gray-600">
-                      Manufacturer: {auto.Hersteller}
-                    </p>
-                    <p className="text-gray-600">Model: {auto.Modell}</p>
-                    <p className="text-gray-600">Type: {auto.Typ}</p>
-                    <p className="text-gray-600">
-                      License Plate: {auto.Kennzeichen}
-                    </p>
-                  </div>
+                {kunde.Autos.map((auto) => (
+                  <Link to={`/singleView/${kunde.id}/${auto.id}`} key={auto.id}>
+                    <div className="border border-gray-300 p-2 rounded-md">
+                      <h3 className="text-xl font-semibold">
+                        {auto.Kennzeichen}
+                      </h3>
+                      <p className="text-gray-600">
+                        Manufacturer: {auto.Hersteller}
+                      </p>
+                      <p className="text-gray-600">Model: {auto.Modell}</p>
+                    </div>
+                  </Link>
                 ))}
               </div>
             )}

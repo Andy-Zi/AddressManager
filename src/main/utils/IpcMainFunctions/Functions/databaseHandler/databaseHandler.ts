@@ -1,17 +1,16 @@
 import DatabaseClient from '../../../../Database/DatabaseClient/DatabaseClient';
-import ListViewKunde from '../../../../Database/DataSchema/ListViewKunde';
-import Auto from '../../../../Database/DataSchema/Auto';
+import Kunde from '../../../../Database/DataSchema/Kunde';
 
-export async function KundenList(): Promise<ListViewKunde[]> {
+export async function KundenList(): Promise<Kunde[]> {
   const db = new DatabaseClient();
   return db.read?.getKundenList() ?? [];
 }
 
-export async function getAutosbyKundeID(id: string): Promise<Auto[]> {
+export async function getKundeByID(id: string): Promise<Kunde> {
   const db = new DatabaseClient();
   try {
-    return db.read?.getAutosByKundeID(id) ?? [];
+    return db.read?.KundeByID(id) ?? new Kunde({});
   } catch (e) {
-    return [];
+    return new Kunde({});
   }
 }

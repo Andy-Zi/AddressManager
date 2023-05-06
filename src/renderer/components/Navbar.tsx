@@ -63,7 +63,11 @@ export default function Navbar() {
     <nav className="navbar">
       <ul className="navbar-list">
         <NavbarIcon icon={AiFillHome} to="/" label="Home" />
-        <NavbarIcon icon={BsFillPeopleFill} to="/clients" label="Clients" />
+        <NavbarIcon
+          icon={BsFillPeopleFill}
+          to="/singleView"
+          label="SingleView"
+        />
         <NavbarIcon
           icon={AiOutlineUnorderedList}
           to="/listView"

@@ -5,7 +5,8 @@ import './App.css';
 import Navbar from './components/Navbar';
 import './styles/components/Navbar.css';
 import Home from './views/Home';
-import Clients from './views/Clients';
+import SingleKundeView from './views/SingleKundeView';
+import SingleAutoView from './views/SingleAutoView';
 import Settings from './views/Settings';
 import ListView from './views/ListView';
 
@@ -14,10 +15,14 @@ export default function App() {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/clients" element={<Clients />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/listView" element={<ListView />} />
+        <Route path="" element={<Home />} />
+        <Route path="singleView/:ClientId" element={<SingleKundeView />} />
+        <Route
+          path="singleView/:ClientId/:CarID"
+          element={<SingleAutoView />}
+        />
+        <Route path="settings" element={<Settings />} />
+        <Route path="listView" element={<ListView />} />
       </Routes>
     </Router>
   );

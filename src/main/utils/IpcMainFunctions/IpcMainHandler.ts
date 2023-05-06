@@ -7,7 +7,7 @@ import {
 } from './Functions/generalHandler/generalHandler';
 import {
   KundenList,
-  getAutosbyKundeID,
+  getKundeByID,
 } from './Functions/databaseHandler/databaseHandler';
 
 function IpcSettingsHandler() {
@@ -40,8 +40,8 @@ function IpcDatabaseHandler() {
   ipcMain.handle('db:read:KundenList', async () => {
     return KundenList();
   });
-  ipcMain.handle('db:read:AutosByKundeID', async (event, id: string) => {
-    return getAutosbyKundeID(id);
+  ipcMain.handle('db:read:KundeByID', async (event, id: string) => {
+    return getKundeByID(id);
   });
 }
 

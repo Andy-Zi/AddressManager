@@ -5,50 +5,44 @@ import Kunde from '../../DataSchema/Kunde';
 // eslint-disable-next-line import/no-cycle
 import DatabaseBaseModule from './DatabaseModule';
 // eslint-disable-next-line import/no-cycle
-import { convertAutoDBToData } from '../DataConverter/convertAuto';
-import { convertTerminDBToData } from '../DataConverter/convertTermin';
-// eslint-disable-next-line import/no-cycle
-import { convertKundeDBToData, convertDBtoListViewKunde } from '../DataConverter/convertKunde';
-import { convertCityDBtoData } from '../DataConverter/convertCity';
-import ListViewKunde from '../../DataSchema/ListViewKunde';
 
 export default class DatabaseReader extends DatabaseBaseModule {
-  public TermineByIDs(ids: string[]): Termin[] {
-    this.ReadDB({ termin: true });
-    const termin =
-      this.TerminDB.data?.Termin.filter((t) => ids.includes(t.id)) ?? [];
-    return termin.map((t) => convertTerminDBToData(t));
-  }
+  // public TermineByIDs(ids: string[]): Termin[] {
+  //   this.ReadDB({ termin: true });
+  //   const termin =
+  //     this.TerminDB.data?.Termin.filter((t) => ids.includes(t.id)) ?? [];
+  //   return termin.map((t) => convertTerminDBToData(t));
+  // }
 
-  public CityById(id: string): City {
-    this.ReadDB({ city: true });
-    const city = this.CityDB.data?.City.find((c) => c.id === id) ?? null;
-    if (city === null) {
-      throw new Error(`City with id ${id} not found`);
-    }
-    return city;
-  }
+  // public CityById(id: string): City {
+  //   this.ReadDB({ city: true });
+  //   const city = this.CityDB.data?.City.find((c) => c.id === id) ?? null;
+  //   if (city === null) {
+  //     throw new Error(`City with id ${id} not found`);
+  //   }
+  //   return city;
+  // }
 
-  public AutoByID(id: string): Auto {
-    this.ReadDB({ auto: true });
-    const auto = this.AutoDB.data?.Auto.find((a) => a.id === id) ?? null;
-    if (auto === null) {
-      throw new Error(`Auto with id ${id} not found`);
-    }
-    return convertAutoDBToData(this.db, auto);
-  }
+  // public AutoByID(id: string): Auto {
+  //   this.ReadDB({ auto: true });
+  //   const auto = this.AutoDB.data?.Auto.find((a) => a.id === id) ?? null;
+  //   if (auto === null) {
+  //     throw new Error(`Auto with id ${id} not found`);
+  //   }
+  //   return convertAutoDBToData(this.db, auto);
+  // }
 
-  public KundeByName(name: string): Kunde | null {
-    this.ReadDB({ kunde: true });
-    const res = this.KundenDB.data?.Kunde?.find((kunde) =>
-      kunde.Name?.includes(name)
-    );
+  // public KundeByName(name: string): Kunde | null {
+  //   this.ReadDB({ kunde: true });
+  //   const res = this.KundenDB.data?.Kunde?.find((kunde) =>
+  //     kunde.Name?.includes(name)
+  //   );
 
-    if (res !== undefined) {
-      return convertKundeDBToData(this.db, res);
-    }
-    return null;
-  }
+  //   if (res !== undefined) {
+  //     return res;
+  //   }
+  //   return null;
+  // }
 
   public PLZbyOrtAndPLZ(ort: string, plz: string): City | null {
     this.ReadDB({ city: true });
@@ -57,30 +51,30 @@ export default class DatabaseReader extends DatabaseBaseModule {
         p.PLZ === plz && (p.Ort?.includes(ort) || p.Ortsteil?.includes(ort))
     );
     if (res !== undefined) {
-      return convertCityDBtoData(res);
+      return res;
     }
     res = this.CityDB.data?.City?.find((p) => p.PLZ === plz);
     if (res !== undefined) {
-      return convertCityDBtoData(res);
+      return res;
     }
     res = this.CityDB.data?.City?.find(
       (p) => p.Ort?.includes(ort) || p.Ortsteil?.includes(ort)
     );
     if (res !== undefined) {
-      return convertCityDBtoData(res);
+      return res;
     }
     return null;
   }
 
-  public KundenWithID(): { id: string; name: string }[] {
-    this.ReadDB({ kunde: true });
-    const kunden =
-      this.KundenDB.data?.Kunde.map((k) => ({
-        id: k.id,
-        name: k.Name?.join(', ') ?? '',
-      })) ?? ([] as { id: string; name: string }[]);
-    return kunden;
-  }
+  // public KundenWithID(): { id: string; name: string }[] {
+  //   this.ReadDB({ kunde: true });
+  //   const kunden =
+  //     this.KundenDB.data?.Kunde.map((k) => ({
+  //       id: k.id,
+  //       name: k.Name?.join(', ') ?? '',
+  //     })) ?? ([] as { id: string; name: string }[]);
+  //   return kunden;
+  // }
 
   public KundeByID(id: string): Kunde {
     this.ReadDB({ kunde: true });
@@ -88,27 +82,23 @@ export default class DatabaseReader extends DatabaseBaseModule {
     if (kunde === null) {
       throw new Error(`Kunde with id ${id} not found`);
     }
-    return convertKundeDBToData(this.db, kunde);
+    return kunde;
   }
 
-  public getKundenList(): ListViewKunde[] {
+  public getKundenList(): Kunde[] {
     this.ReadDB({ kunde: true });
-    const dbkunde = this.KundenDB.data?.Kunde ?? [];
-    const listviewkunde = dbkunde.map((k) =>
-      convertDBtoListViewKunde(this.db, k)
-    );
-    return listviewkunde;
+    return this.KundenDB.data?.Kunde ?? [];
   }
 
-  public getAutosByKundeID(id: string): Auto[] {
-    this.ReadDB({ auto: true });
-    const DbKunde = this.KundenDB.data?.Kunde.find((k) => k.id === id) ?? null;
-    if (DbKunde === null) {
-      throw new Error(`Kunde with id ${id} not found`);
-    }
-    const kunde = convertKundeDBToData(this.db, DbKunde);
-    return kunde.Autos;
-  }
+  // public getAutosByKundeID(id: string): Auto[] {
+  //   this.ReadDB({ auto: true });
+  //   const DbKunde = this.KundenDB.data?.Kunde.find((k) => k.id === id) ?? null;
+  //   if (DbKunde === null) {
+  //     throw new Error(`Kunde with id ${id} not found`);
+  //   }
+  //   const kunde = convertKundeDBToData(this.db, DbKunde);
+  //   return kunde.Autos;
+  // }
 
   // public KundeByID(id: string): Kunde | null {
   //   this.ReadDB({ kunde: true });

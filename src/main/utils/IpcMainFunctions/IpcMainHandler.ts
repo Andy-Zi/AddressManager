@@ -5,7 +5,10 @@ import {
   openFileDialog,
   openFolderDialog,
 } from './Functions/generalHandler/generalHandler';
-import { KundenList } from './Functions/databaseHandler/databaseHandler';
+import {
+  KundenList,
+  getAutosbyKundeID,
+} from './Functions/databaseHandler/databaseHandler';
 
 function IpcSettingsHandler() {
   ipcMain.handle(
@@ -36,6 +39,9 @@ function IpcDatabaseHandler() {
   // );
   ipcMain.handle('db:read:KundenList', async () => {
     return KundenList();
+  });
+  ipcMain.handle('db:read:AutosByKundeID', async (event, id: string) => {
+    return getAutosbyKundeID(id);
   });
 }
 

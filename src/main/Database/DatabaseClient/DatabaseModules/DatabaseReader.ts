@@ -8,8 +8,9 @@ import DatabaseBaseModule from './DatabaseModule';
 import { convertAutoDBToData } from '../DataConverter/convertAuto';
 import { convertTerminDBToData } from '../DataConverter/convertTermin';
 // eslint-disable-next-line import/no-cycle
-import { convertKundeDBToData } from '../DataConverter/convertKunde';
+import { convertKundeDBToData, convertDBtoListViewKunde } from '../DataConverter/convertKunde';
 import { convertCityDBtoData } from '../DataConverter/convertCity';
+import ListViewKunde from '../../DataSchema/ListViewKunde';
 
 export default class DatabaseReader extends DatabaseBaseModule {
   public TermineByIDs(ids: string[]): Termin[] {
@@ -90,11 +91,23 @@ export default class DatabaseReader extends DatabaseBaseModule {
     return convertKundeDBToData(this.db, kunde);
   }
 
-  public getKundenList(): Kunde[] {
+  public getKundenList(): ListViewKunde[] {
     this.ReadDB({ kunde: true });
     const dbkunde = this.KundenDB.data?.Kunde ?? [];
-    const kunde = dbkunde.map((k) => convertKundeDBToData(this.db, k));
-    return kunde;
+    const listviewkunde = dbkunde.map((k) =>
+      convertDBtoListViewKunde(this.db, k)
+    );
+    return listviewkunde;
+  }
+
+  public getAutosByKundeID(id: string): Auto[] {
+    this.ReadDB({ auto: true });
+    const DbKunde = this.KundenDB.data?.Kunde.find((k) => k.id === id) ?? null;
+    if (DbKunde === null) {
+      throw new Error(`Kunde with id ${id} not found`);
+    }
+    const kunde = convertKundeDBToData(this.db, DbKunde);
+    return kunde.Autos;
   }
 
   // public KundeByID(id: string): Kunde | null {

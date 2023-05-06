@@ -133,6 +133,7 @@ app.on('window-all-closed', () => {
 });
 
 const dbPath = path.join(configs.saveLocation, 'KundenDB');
+// eslint-disable-next-line no-unused-vars
 const databaseClient = new DatabaseClient(dbPath);
 
 app

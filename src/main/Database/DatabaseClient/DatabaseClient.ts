@@ -46,7 +46,7 @@ export default class DatabaseClient {
     );
     this.AutoDB = new LowSync(new JSONFileSync(join(DBpath, 'AutoDB.json')));
     this.TerminDB = new LowSync(
-      new JSONFileSync(join(DBpath, 'TerminDB.json')),
+      new JSONFileSync(join(DBpath, 'TerminDB.json'))
     );
     this.CityDB = new LowSync(new JSONFileSync(join(DBpath, 'CityDB.json')));
 

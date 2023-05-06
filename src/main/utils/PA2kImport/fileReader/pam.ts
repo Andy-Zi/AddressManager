@@ -18,7 +18,7 @@ class PAM {
 
   Import() {
     const header = this.fileContentInBin.slice(0, this.HeaderLen);
-    const data = this.fileContentInBin.slice(this.HeaderLen+4);
+    const data = this.fileContentInBin.slice(this.HeaderLen + 4);
 
     const FieldLen = [];
     let ItemLen = 0;

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { IconType } from 'react-icons/lib';
 
 interface NavbarIconProps {
@@ -9,10 +9,15 @@ interface NavbarIconProps {
 export default function NavbarIcon({ icon: Icon, label, to }: NavbarIconProps) {
   return (
     <li className="navbar-icon group">
-      <Link to={to}>
+      <NavLink
+        className={({ isActive }) => {
+          return isActive ? 'navbar-icon-active' : 'navbar-icon-inactive';
+        }}
+        to={to}
+      >
         <Icon />
         <span className="navbar-icon-label group-hover:scale-100">{label}</span>
-      </Link>
+      </NavLink>
     </li>
   );
 }

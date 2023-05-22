@@ -1,30 +1,23 @@
-import { useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Kunde from '../../main/Database/DataSchema/Kunde';
 import Auto from '../../main/Database/DataSchema/Auto';
 
 type SingleViewProps = {
-  ClientId: string;
-  CarID: string;
+  client: Kunde;
+  carid?: string;
 };
 
 export default function SingleAutoView() {
-  const { ClientId, CarID } = useParams<SingleViewProps>();
+  const obj = useOutletContext<SingleViewProps>();
+  const Client = obj?.client;
+  const CarID = obj?.carid;
 
-  const [Client, setClient] = useState<Kunde>();
   const [Car, setCar] = useState<Auto>();
 
-  const getClient = async (clientId: string) => {
-    const kunde = await window.database?.readKundeByID(clientId);
-    setClient(kunde);
-    setCar(kunde?.Autos.find((auto) => auto.id === CarID));
-  };
-
   useEffect(() => {
-    if (ClientId) {
-      getClient(ClientId);
-    }
-  }, [ClientId]);
+    setCar(Client?.Autos.find((auto) => auto.id === CarID));
+  }, [Client, CarID]);
 
   return (
     <div className="SingleView p-6">

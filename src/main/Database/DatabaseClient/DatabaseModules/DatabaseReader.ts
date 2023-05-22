@@ -32,17 +32,17 @@ export default class DatabaseReader extends DatabaseBaseModule {
   //   return convertAutoDBToData(this.db, auto);
   // }
 
-  // public KundeByName(name: string): Kunde | null {
-  //   this.ReadDB({ kunde: true });
-  //   const res = this.KundenDB.data?.Kunde?.find((kunde) =>
-  //     kunde.Name?.includes(name)
-  //   );
+  public KundeByName(name: string): Kunde | null {
+    this.ReadDB({ kunde: true });
+    const res = this.KundenDB.data?.Kunde?.find((kunde) =>
+      kunde.Name?.includes(name)
+    );
 
-  //   if (res !== undefined) {
-  //     return res;
-  //   }
-  //   return null;
-  // }
+    if (res !== undefined) {
+      return res;
+    }
+    return null;
+  }
 
   public PLZbyOrtAndPLZ(ort: string, plz: string): City | null {
     this.ReadDB({ city: true });

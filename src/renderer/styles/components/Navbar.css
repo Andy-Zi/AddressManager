@@ -15,6 +15,14 @@
     @apply text-gray-400 text-lg no-underline flex align-middle justify-center text-[50px]
   }
 
+  .navbar-icon-active {
+    @apply text-indigo-500
+  }
+
+  .navbar-icon-inactive {
+    @apply text-gray-400
+  }
+
   .navbar-icon-label {
     @apply absolute w-auto p-2 m-2 min-w-max top-14 rounded-md shadow-md
     text-white bg-gray-900

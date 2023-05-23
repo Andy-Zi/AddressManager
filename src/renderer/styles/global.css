@@ -1,0 +1,12 @@
+
+@tailwind components;
+
+@layer components {
+  .btn{
+    @apply bg-blue-500 px-4 py-2 rounded-md mt-2
+  }
+
+  .btn:hover{
+    @apply bg-blue-600
+  }
+}

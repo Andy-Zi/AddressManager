@@ -15,7 +15,7 @@ export default class DatabaseReader extends DatabaseBaseModule {
   // }
 
   // public CityById(id: string): City {
-  //   this.ReadDB({ city: true });
+  //   this.ReadDB();
   //   const city = this.CityDB.data?.City.find((c) => c.id === id) ?? null;
   //   if (city === null) {
   //     throw new Error(`City with id ${id} not found`);
@@ -33,7 +33,7 @@ export default class DatabaseReader extends DatabaseBaseModule {
   // }
 
   public KundeByName(name: string): Kunde | null {
-    this.ReadDB({ kunde: true });
+    this.ReadDB();
     const res = this.KundenDB.data?.Kunde?.find((kunde) =>
       kunde.Name?.includes(name)
     );
@@ -45,7 +45,7 @@ export default class DatabaseReader extends DatabaseBaseModule {
   }
 
   public PLZbyOrtAndPLZ(ort: string, plz: string): City | null {
-    this.ReadDB({ city: true });
+    this.ReadDB();
     let res = this.CityDB.data?.City?.find(
       (p) =>
         p.PLZ === plz && (p.Ort?.includes(ort) || p.Ortsteil?.includes(ort))
@@ -67,7 +67,7 @@ export default class DatabaseReader extends DatabaseBaseModule {
   }
 
   // public KundenWithID(): { id: string; name: string }[] {
-  //   this.ReadDB({ kunde: true });
+  //   this.ReadDB();
   //   const kunden =
   //     this.KundenDB.data?.Kunde.map((k) => ({
   //       id: k.id,
@@ -77,7 +77,7 @@ export default class DatabaseReader extends DatabaseBaseModule {
   // }
 
   public KundeByID(id: string): Kunde {
-    this.ReadDB({ kunde: true });
+    this.ReadDB();
     const kunde = this.KundenDB.data?.Kunde.find((k) => k.id === id) ?? null;
     if (kunde === null) {
       throw new Error(`Kunde with id ${id} not found`);
@@ -86,7 +86,7 @@ export default class DatabaseReader extends DatabaseBaseModule {
   }
 
   public getKundenList(): Kunde[] {
-    this.ReadDB({ kunde: true });
+    this.ReadDB();
     return this.KundenDB.data?.Kunde ?? [];
   }
 
@@ -101,7 +101,7 @@ export default class DatabaseReader extends DatabaseBaseModule {
   // }
 
   // public KundeByID(id: string): Kunde | null {
-  //   this.ReadDB({ kunde: true });
+  //   this.ReadDB();
   //   const kunde = this.KundenDB.data?.Kunde?.find((a) => a.id === id);
   //   return kunde ?? null;
   // }

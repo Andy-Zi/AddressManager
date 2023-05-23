@@ -56,17 +56,32 @@ export default class DatabaseClient {
   }
 
   public enableMemoryMode(): void {
+    if (!this.read || !this.write) {
+      throw new Error(
+        'DatabaseClient: MemoryMode can only be enabled after initialization'
+      );
+    }
     this.read.MemoryMode = true;
     this.write.MemoryMode = true;
   }
 
   public disableMemoryMode(): void {
+    if (!this.read || !this.write) {
+      throw new Error(
+        'DatabaseClient: MemoryMode can only be disabled after initialization'
+      );
+    }
     this.read.MemoryMode = false;
     this.write.MemoryMode = false;
-    this.write.SaveDB({ kunde: true, city: true });
+    this.write.SaveDB();
   }
 
   public clearDatabase(): void {
+    if (!this.KundenDB || !this.CityDB) {
+      throw new Error(
+        'DatabaseClient: Database can only be cleared after initialization'
+      );
+    }
     this.KundenDB.data = { Kunde: [] };
     this.CityDB.data = { City: [] };
   }

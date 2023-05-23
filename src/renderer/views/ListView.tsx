@@ -10,6 +10,13 @@ export default function ListView() {
     const fetchKunden = async () => {
       const result = await window.database?.getKundenList();
       if (result) {
+        // check if kunde erstelltAm is a Date object else convert it to a Date object
+        result.forEach((kunde) => {
+          if (typeof kunde.ErstelltAm === 'string') {
+            // eslint-disable-next-line no-param-reassign
+            kunde.ErstelltAm = new Date(kunde.ErstelltAm);
+          }
+        });
         setKunden(result);
       }
     };
@@ -41,8 +48,9 @@ export default function ListView() {
                 <h2 className="text-xl font-semibold">
                   {kunde.Name?.join(' ')}
                 </h2>
-                {/* TODO: Why is ErstelltAm here a string and no data? */}
-                <p className="text-gray-600">Erstellt am: {kunde.ErstelltAm}</p>
+                <p className="text-gray-600">
+                  Erstellt am: {kunde.ErstelltAm.toLocaleDateString('de-DE')}
+                </p>
                 <p className="text-gray-600">
                   Phone: {kunde.Telefon?.join(', ')}
                 </p>
@@ -53,7 +61,7 @@ export default function ListView() {
             </Link>
             <button
               type="button"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2"
+              className="btn"
               onClick={() => toggleDropdown(kunde.id)}
             >
               Autos

@@ -24,25 +24,17 @@ class DatabaseBaseModule {
     this.MemoryMode = MemoryMode;
   }
 
-  public SaveDB({ kunde = false, city = false } = {}): void {
+  public SaveDB(): void {
     if (!this.MemoryMode) {
-      if (kunde) {
-        this.KundenDB.write();
-      }
-      if (city) {
-        this.CityDB.write();
-      }
+      this.KundenDB.write();
+      this.CityDB.write();
     }
   }
 
-  public ReadDB({ kunde = false, city = false } = {}): void {
+  public ReadDB(): void {
     if (!this.MemoryMode) {
-      if (kunde) {
-        this.KundenDB.read();
-      }
-      if (city) {
-        this.CityDB.read();
-      }
+      this.KundenDB.read();
+      this.CityDB.read();
     }
   }
 }

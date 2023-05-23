@@ -8,64 +8,64 @@ import Kunde from '../../DataSchema/Kunde';
 
 export default class DatabaseWriter extends DatabaseBaseModule {
   public NewCity(city: City): void {
-    this.ReadDB({ city: true });
+    this.ReadDB();
     this.CityDB.data?.City?.push(city);
-    this.SaveDB({ city: true });
+    this.SaveDB();
   }
 
   public NewManyCity(cities: City[]): void {
-    this.ReadDB({ city: true });
+    this.ReadDB();
     for (let i = 0; i < cities.length; i += 1) {
       this.CityDB.data?.City?.push(cities[i]);
     }
-    this.SaveDB({ city: true });
+    this.SaveDB();
   }
 
   public UpdateCity(city: City): void {
-    this.ReadDB({ city: true });
+    this.ReadDB();
     const index = this.CityDB.data?.City?.findIndex((c) => c.id === city.id);
     if (index !== undefined && index !== -1) {
       this.CityDB.data?.City?.splice(index, 1, city);
     }
-    this.SaveDB({ city: true });
+    this.SaveDB();
   }
 
   public DeleteCity(city: City): void {
-    this.ReadDB({ city: true });
+    this.ReadDB();
     const index = this.CityDB.data?.City?.findIndex((c) => c.id === city.id);
     if (index !== undefined && index !== -1) {
       this.CityDB.data?.City?.splice(index, 1);
     }
-    this.SaveDB({ city: true });
+    this.SaveDB();
   }
 
   public NewKunde(kunde: Kunde): void {
-    this.ReadDB({ kunde: true });
+    this.ReadDB();
     this.KundenDB.data?.Kunde?.push(kunde);
-    this.SaveDB({ kunde: true });
+    this.SaveDB();
   }
 
   public NewManyKunde(kunde: Kunde[]): void {
-    this.ReadDB({ kunde: true });
+    this.ReadDB();
     for (let i = 0; i < kunde.length; i += 1) {
       this.KundenDB.data?.Kunde?.push(kunde[i]);
     }
-    this.SaveDB({ kunde: true });
+    this.SaveDB();
   }
 
   public UpdateKunde(kunde: Kunde): void {
-    this.ReadDB({ kunde: true });
+    this.ReadDB();
     const index = this.KundenDB.data?.Kunde?.findIndex(
       (k) => k.id === kunde.id
     );
     if (index !== undefined && index !== -2) {
       this.KundenDB.data?.Kunde?.splice(index, 1, kunde);
     }
-    this.SaveDB({ kunde: true });
+    this.SaveDB();
   }
 
   public DeleteKunde(kunde: Kunde): void {
-    this.ReadDB({ kunde: true });
+    this.ReadDB();
     const index = this.KundenDB.data?.Kunde?.findIndex(
       (k) => k.id === kunde.id
     );
@@ -73,18 +73,18 @@ export default class DatabaseWriter extends DatabaseBaseModule {
       // TODO: Check if ther are any Autos or Termine for this Kunde
       this.KundenDB.data?.Kunde?.splice(index, 0);
     }
-    this.SaveDB({ kunde: true });
+    this.SaveDB();
   }
 
   public NewAuto(kundenID: string, auto: Auto): void {
-    this.ReadDB({ kunde: true });
+    this.ReadDB();
     const index = this.KundenDB.data?.Kunde?.findIndex(
       (k) => k.id === kundenID
     );
     if (index !== undefined && index !== -1) {
       this.KundenDB.data?.Kunde?.[index].Autos?.push(auto);
     }
-    this.SaveDB({ kunde: true });
+    this.SaveDB();
   }
 
   // public NewManyAuto(auto: Auto[]): void {

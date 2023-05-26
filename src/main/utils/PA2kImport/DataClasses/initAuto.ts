@@ -90,12 +90,17 @@ export default function initAuto(
   car.Heck = dataset.HECKK ?? '';
   car.HuAu =
     dataset.HUJA && dataset.HUMO
-      ? new Date(parseInt(dataset.HUJA, 10), parseInt(dataset.HUMO, 10), 1)
+      ? new Date(parseInt(dataset.HUJA, 10), parseInt(dataset.HUMO, 10) - 1, 1)
       : null;
   car.Reifen = dataset.REIFEN ?? '';
   car.Motor = dataset.MOTZYL ?? '';
   car.Getriebe = dataset.GANG ?? '';
-  car.Partikelfilter = dataset.PARTIKELF ?? '';
+  car.Partikelfilter =
+    dataset.PARTIKELF === 'JA'
+      ? true
+      : dataset.PARTIKELF === 'NEIN'
+      ? false
+      : null;
 
   const bsV = new Bremsscheibe({});
   bsV.Innenbelueftet = dataset.BRESCHEIV ?? '';

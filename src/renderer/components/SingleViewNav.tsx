@@ -34,8 +34,8 @@ export default function SingleViewNav() {
   }, [ClientId]);
 
   return (
-    <div className="SingleViewNav flex flex-grow">
-      <nav className="bg-gray-100 w-1/4 flex-grow py-4">
+    <div className="SingleViewNav flex flex-grow h-full">
+      <nav className="bg-gray-100 py-4 w-40">
         <ul className="space-y-4">
           <li>
             <Link
@@ -75,7 +75,7 @@ export default function SingleViewNav() {
           ))}
         </ul>
       </nav>
-      <div className="w-3/4">
+      <div className="flex-grow overflow-auto">
         <Outlet context={{ client: Client, carid: CarID }} />
       </div>
     </div>

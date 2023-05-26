@@ -18,16 +18,18 @@ export default function App() {
     <div className="flex flex-col h-screen">
       <Router>
         <Navbar />
-        <Routes>
-          <Route path="" element={<Home />} />
-          <Route path="singleView/:ClientId" element={<SingleViewNav />}>
-            <Route index element={<SingleKundeView />} />
-            <Route path=":CarID" element={<SingleAutoView />} />
-            <Route path=":CarID/Teile" element={<SingleTeileView />} />
-          </Route>
-          <Route path="settings" element={<Settings />} />
-          <Route path="listView" element={<ListView />} />
-        </Routes>
+        <div className="flex-grow overflow-y-auto">
+          <Routes>
+            <Route path="" element={<Home />} />
+            <Route path="singleView/:ClientId" element={<SingleViewNav />}>
+              <Route index element={<SingleKundeView />} />
+              <Route path=":CarID" element={<SingleAutoView />} />
+              <Route path=":CarID/Teile" element={<SingleTeileView />} />
+            </Route>
+            <Route path="settings" element={<Settings />} />
+            <Route path="listView" element={<ListView />} />
+          </Routes>
+        </div>
       </Router>
     </div>
   );

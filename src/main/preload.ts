@@ -49,6 +49,9 @@ const generalHandler = {
   showMessageBox(options: MessageBoxOptions): Promise<MessageBoxReturnValue> {
     return ipcRenderer.invoke('general:show-message-box', options);
   },
+  openFile(path: string): Promise<void> {
+    return ipcRenderer.invoke('general:openFile', path);
+  },
 };
 
 const databaseHandler = {

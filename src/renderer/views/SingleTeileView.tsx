@@ -67,11 +67,11 @@ export default function SingleTeileView() {
       <h1 className="text-2xl font-bold mb-4">SingleView</h1>
       {updatedTeile ? (
         <form onSubmit={handleSubmit} className="space-y-2">
-          <EditableField name="oelbezeichnung" value={updatedTeile.oelbezeichnung} onChange={handleChange} />
-          <EditableField name="oelmenge" value={updatedTeile.oelmenge} onChange={handleChange} />
+          <EditableField name="oelbezeichnung" value={updatedTeile.oelbezeichnung} handleOnChange={handleChange} />
+          <EditableField name="oelmenge" value={updatedTeile.oelmenge} handleOnChange={handleChange} />
           {updatedTeile.TeilListe.map((teil, index) => (
           // TODO: Add Notizen
-            <EditableField name={teil.Bezeichnung} value={teil.Teilenummer} onChange={handleChange} />
+            <EditableField name={teil.Bezeichnung} value={teil.Teilenummer} handleOnChange={handleChange} />
           ))}
           <button type="submit" className="btn">
             Save

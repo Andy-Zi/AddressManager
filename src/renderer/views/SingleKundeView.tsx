@@ -20,11 +20,28 @@ export default function SingleKundeView() {
 
   const [updatedClient, setUpdatedClient] = useState<Kunde>(Client);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUpdatedClient({
-      ...updatedClient,
-      [event.target.name]: event.target.value,
-    });
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number = -1
+  ) => {
+    if (index === -1) {
+      setUpdatedClient({
+        ...updatedClient,
+        [event.target.name]: event.target.value,
+      });
+    } else {
+      setUpdatedClient({
+        ...updatedClient,
+        [event.target.name]: updatedClient[event.target.name].map(
+          (value, i) => {
+            if (i === index) {
+              return event.target.value;
+            }
+            return value;
+          }
+        ),
+      });
+    }
   };
 
   const handleAddField = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +51,10 @@ export default function SingleKundeView() {
     });
   };
 
-  const handleDeleteField = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleDeleteField = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     setUpdatedClient({
       ...updatedClient,
       [event.target.name]: updatedClient[event.target.name].filter(
@@ -62,14 +82,52 @@ export default function SingleKundeView() {
       {updatedClient ? (
         <>
           <form onSubmit={handleSubmit} className="space-y-2">
-            <EditableMultipleField name="Name" value={updatedClient.Name} onChange={handleChange} handleAddField={handleAddField} handleDeleteField={handleDeleteField} />
-            <EditableField name="Kundennummer" value={updatedClient.Kundennummer} onChange={handleChange} />
-            <EditableMultipleField name="Telefon" value={updatedClient.Telefon} onChange={handleChange} handleAddField={handleAddField} handleDeleteField={handleDeleteField} />
-            <EditableMultipleField name="Mobile" value={updatedClient.Mobile} onChange={handleChange} handleAddField={handleAddField} handleDeleteField={handleDeleteField} />
-            <EditableMultipleField name="Email" value={updatedClient.Email} onChange={handleChange} handleAddField={handleAddField} handleDeleteField={handleDeleteField} />
-            <UneditableField name="ErstelltAm" value={updatedClient.ErstelltAm.toLocaleDateString('de-DE')} />
-            <EditableField name="Straße" value={updatedClient.Straße} onChange={handleChange} />
-            <EditableOrtField ort={updatedClient.Ort} onChange={handleChange} />
+            <EditableMultipleField
+              name="Name"
+              value={updatedClient.Name}
+              handleOnChange={handleChange}
+              handleAddField={handleAddField}
+              handleDeleteField={handleDeleteField}
+            />
+            <EditableField
+              name="Kundennummer"
+              value={updatedClient.Kundennummer}
+              handleOnChange={handleChange}
+            />
+            <EditableMultipleField
+              name="Telefon"
+              value={updatedClient.Telefon}
+              handleOnChange={handleChange}
+              handleAddField={handleAddField}
+              handleDeleteField={handleDeleteField}
+            />
+            <EditableMultipleField
+              name="Mobile"
+              value={updatedClient.Mobile}
+              handleOnChange={handleChange}
+              handleAddField={handleAddField}
+              handleDeleteField={handleDeleteField}
+            />
+            <EditableMultipleField
+              name="Email"
+              value={updatedClient.Email}
+              handleOnChange={handleChange}
+              handleAddField={handleAddField}
+              handleDeleteField={handleDeleteField}
+            />
+            <UneditableField
+              name="ErstelltAm"
+              value={updatedClient.ErstelltAm.toLocaleDateString('de-DE')}
+            />
+            <EditableField
+              name="Straße"
+              value={updatedClient.Straße}
+              handleOnChange={handleChange}
+            />
+            <EditableOrtField
+              ort={updatedClient.Ort}
+              handleOnChange={handleChange}
+            />
             <button type="submit" className="btn">
               Save
             </button>

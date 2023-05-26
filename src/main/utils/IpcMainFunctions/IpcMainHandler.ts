@@ -1,4 +1,4 @@
-import { app, dialog, ipcMain } from 'electron';
+import { app, dialog, ipcMain, shell } from 'electron';
 
 import handlePA2kImport from './Functions/settingsHandler/handlePA2kImport';
 import {
@@ -28,6 +28,9 @@ function IpcGeneralHandler() {
   });
   ipcMain.handle('general:show-message-box', async (event, options) => {
     return dialog.showMessageBox(options);
+  });
+  ipcMain.handle('general:openFile', async (event, path: string) => {
+    shell.openPath(path);
   });
 }
 

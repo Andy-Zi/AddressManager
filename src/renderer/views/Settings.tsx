@@ -2,10 +2,10 @@ import { useState } from 'react';
 
 export default function Settings() {
   const [importPA2kPath, setImportPA2kPath] = useState<string>(
-    'C:\\Users\\andyz\\OneDrive\\Desktop\\pa2 to realm\\Datensatz'
+    'C:\\Users\\andre\\OneDrive\\Desktop\\pa2 to realm\\Datensatz'
   );
   const [importZipCodePath, setImportZipCodePath] = useState<string>(
-    'C:\\Users\\andyz\\OneDrive\\Desktop\\pa2 to realm\\PLZ_2021.csv'
+    'C:\\Users\\andre\\OneDrive\\Desktop\\pa2 to realm\\PLZ_2021.csv'
   );
 
   const handleBrowseFileClick = async (

@@ -73,7 +73,7 @@ export default class Auto {
 
   public Getriebe: string;
 
-  public Partikelfilter: string;
+  public Partikelfilter: boolean | null;
 
   public Feststellbremse: string;
 

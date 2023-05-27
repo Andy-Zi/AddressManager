@@ -1,28 +1,35 @@
 import City from 'main/Database/DataSchema/City';
 import React, { useState } from 'react';
+import '../styles/components/EditableField.css';
 
 type EditableFieldProps = {
+  label: string;
   name: string;
   value: string;
   handleOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function EditableField({ name, value, handleOnChange }: EditableFieldProps) {
+export function EditableField({
+  label,
+  name,
+  value,
+  handleOnChange,
+}: EditableFieldProps) {
   return (
     <div className="flex">
-      <span className="font-semibold w-32">{name}:</span>
+      <span className="inputFieldLabel">{label}:</span>
       <input
         name={name}
         value={value}
         onChange={handleOnChange}
-        className="border rounded py-1 px-2 bg-gray-100 w-64"
+        className="inputField"
       />
     </div>
   );
 }
 
 type EditableSchluesselNrFieldProps = {
-  name: string;
+  label: string;
   name1: string;
   value1: string;
   name2: string;
@@ -33,7 +40,7 @@ type EditableSchluesselNrFieldProps = {
 };
 
 export function EditableSchluesselNrField({
-  name,
+  label,
   name1,
   value1,
   name2,
@@ -44,33 +51,34 @@ export function EditableSchluesselNrField({
 }: EditableSchluesselNrFieldProps) {
   return (
     <div className="flex">
-      <span className="font-semibold w-32">{name}:</span>
+      <span className="inputFieldLabel">{label}:</span>
       zu1
       <input
         name={name1}
         value={value1}
         onChange={handleOnChange}
-        className="border rounded py-1 px-2 bg-gray-100 w-16"
+        className="inputFieldSmall"
       />
       2/2.1
       <input
         name={name2}
         value={value2}
         onChange={handleOnChange}
-        className="border rounded py-1 px-2 bg-gray-100 w-16"
+        className="inputFieldSmall"
       />
       3/2.2
       <input
         name={name3}
         value={value3}
         onChange={handleOnChange}
-        className="border rounded py-1 px-2 bg-gray-100 w-24"
+        className="inputFieldSmall"
       />
     </div>
   );
 }
 
 type EditableLeistungFieldProps = {
+  label: string;
   name1: string;
   value1: number;
   name2: string;
@@ -79,6 +87,7 @@ type EditableLeistungFieldProps = {
 };
 
 export function EditableLeistungField({
+  label,
   name1,
   value1,
   name2,
@@ -87,26 +96,29 @@ export function EditableLeistungField({
 }: EditableLeistungFieldProps) {
   return (
     <div className="flex">
-      <span className="font-semibold w-32">{name1}:</span>
+      <span className="inputFieldLabel">{label}:</span>
       <input
         name={name1}
         value={value1}
         onChange={handleOnChange}
-        className="border rounded py-1 px-2 bg-gray-100 w-16"
+        type="number"
+        className="inputFieldSmall"
       />
       kW
       <input
         name="PS"
         value={Math.round(value1 * 1.36)}
-        onChange={handleOnChange}
-        className="border rounded py-1 px-2 bg-gray-100 w-16"
+        onChange={(e) => handleOnChange({ ...e, target : { ...e.target, name: name1, value: Math.round(e.target.value / 1.36)}})}
+        type="number"
+        className="inputFieldSmall"
       />
       PS
       <input
         name={name2}
         value={value2}
         onChange={handleOnChange}
-        className="border rounded py-1 px-2 bg-gray-100 w-24"
+        type="number"
+        className="inputFieldSmall"
       />
       1/min
     </div>
@@ -114,10 +126,16 @@ export function EditableLeistungField({
 }
 
 type EditableMultipleFieldProps = {
+  label: string;
   name: string;
   value: string[];
-  handleOnChange: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void;
-  handleAddField: (event: React.MouseEventHandler<HTMLButtonElement, MouseEvent>) => void;
+  handleOnChange: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => void;
+  handleAddField: (
+    event: React.MouseEventHandler<HTMLButtonElement, MouseEvent>
+  ) => void;
   handleDeleteField: (
     event: React.MouseEventHandler<HTMLButtonElement, MouseEvent>,
     index: number
@@ -125,6 +143,7 @@ type EditableMultipleFieldProps = {
 };
 
 export function EditableMultipleField({
+  label,
   name,
   value,
   handleOnChange,
@@ -133,7 +152,7 @@ export function EditableMultipleField({
 }: EditableMultipleFieldProps) {
   return (
     <div className="flex">
-      <span className="font-semibold w-32">{name}:</span>
+      <span className="inputFieldLabel">{label}:</span>
       <div className="flex flex-col">
         {value.map((val, index) => (
           <div key={index} className="flex items-center">
@@ -141,7 +160,7 @@ export function EditableMultipleField({
               name={name}
               value={val}
               onChange={(e) => handleOnChange(e, index)}
-              className="border rounded py-1 px-2 bg-gray-100 w-64 mt-1 mb-1 mr-1"
+              className="inputField"
             />
             <button
               type="button"
@@ -167,54 +186,91 @@ export function EditableMultipleField({
 }
 
 type UneditableFieldProps = {
+  label: string;
   name: string;
   value: string;
 };
 
-export function UneditableField({ name, value }: UneditableFieldProps) {
+export function UneditableField({ label, name, value }: UneditableFieldProps) {
   return (
     <div className="flex">
-      <span className="font-semibold w-32">{name}:</span>
-      {value}
+      <span className="inputFieldLabel">{label}:</span>
+      <input name={name} value={value} readOnly className="inputField" />
     </div>
   );
 }
 
 type EditableOrtFieldProps = {
+  label: string;
   ort: City;
   handleOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function EditableOrtField({ ort, handleOnChange }: EditableOrtFieldProps) {
+export function EditableOrtField({
+  label,
+  ort,
+  handleOnChange,
+}: EditableOrtFieldProps) {
   return (
     <div className="flex flex-col">
-      <span className="font-semibold w-32">Ort:</span>
+      <span className="inputFieldLabel">{label}:</span>
       <div className="flex flex-col">
-        <EditableField name="PLZ" value={ort.PLZ} handleOnChange={handleOnChange} />
-        <EditableField name="Ort" value={ort.Ort} handleOnChange={handleOnChange} />
-        <EditableField name="Ortsteil" value={ort.Ortsteil} handleOnChange={handleOnChange} />
+        <EditableField
+          label="PLZ"
+          name="PLZ"
+          value={ort.PLZ}
+          handleOnChange={handleOnChange}
+        />
+        <EditableField
+          label="Ort"
+          name="Ort"
+          value={ort.Ort}
+          handleOnChange={handleOnChange}
+        />
+        <EditableField
+          label="Ortsteil"
+          name="Ortsteil"
+          value={ort.Ortsteil}
+          handleOnChange={handleOnChange}
+        />
       </div>
     </div>
   );
 }
 
 type EditableBooleanFieldProps = {
+  label: string;
   name: string;
   value: boolean | null;
   handleOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function EditableBooleanField({ name, value, handleOnChange }: EditableBooleanFieldProps) {
+export function EditableBooleanField({
+  label,
+  name,
+  value,
+  handleOnChange,
+}: EditableBooleanFieldProps) {
   return (
-    <div className="flex flex">
-      <span className="font-semibold w-32">{name}:</span>
+    <div className="flex">
+      <span className="inputFieldLabel">{label}:</span>
       <div className="flex items-center space-x-2">
         <label>
           <input
             type="checkbox"
             name={name}
             checked={value === true}
-            onChange={(event) => handleOnChange({ ...event, target: { ...event.target, value: true, name: name, type: 'checkbox'} })}
+            onChange={(event) =>
+              handleOnChange({
+                ...event,
+                target: {
+                  ...event.target,
+                  value: true,
+                  name,
+                  type: 'checkbox',
+                },
+              })
+            }
           />
           Ja
         </label>
@@ -223,7 +279,17 @@ export function EditableBooleanField({ name, value, handleOnChange }: EditableBo
             type="checkbox"
             name={name}
             checked={value === false}
-            onChange={(event) => handleOnChange({ ...event, target: { ...event.target, value: false, name: name, type: 'checkbox' } })}
+            onChange={(event) =>
+              handleOnChange({
+                ...event,
+                target: {
+                  ...event.target,
+                  value: false,
+                  name,
+                  type: 'checkbox',
+                },
+              })
+            }
           />
           Nein
         </label>
@@ -233,19 +299,32 @@ export function EditableBooleanField({ name, value, handleOnChange }: EditableBo
 }
 
 type EditableDropdownFieldProps = {
+  label: string;
   name: string;
   value: string;
   options: string[];
   handleOnChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-export function EditableDropdownField({ name, value, options, handleOnChange }: EditableDropdownFieldProps) {
+export function EditableDropdownField({
+  label,
+  name,
+  value,
+  options,
+  handleOnChange,
+}: EditableDropdownFieldProps) {
   return (
     <div className="flex">
-      <label htmlFor={name} className="font-semibold w-32">
-        {name}:
+      <label htmlFor={name} className="inputFieldLabel">
+        {label}
       </label>
-      <select id={name} name={name} value={value} onChange={handleOnChange} className='border rounded py-1 px-2 bg-gray-100 w-64'>
+      <select
+        id={name}
+        name={name}
+        value={value}
+        onChange={handleOnChange}
+        className="inputField"
+      >
         {options.map((option) => (
           <option key={option} value={option}>
             {option}
@@ -273,10 +352,16 @@ const handleDrop = (event: React.DragEvent<HTMLDivElement>, handleOnDrop) => {
 };
 
 type DragAndDropFieldProps = {
+  label: string;
   name: string;
   value: string[];
-  handleOnChange: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void;
-  handleAddField: (event: React.MouseEventHandler<HTMLButtonElement, MouseEvent>) => void;
+  handleOnChange: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => void;
+  handleAddField: (
+    event: React.MouseEventHandler<HTMLButtonElement, MouseEvent>
+  ) => void;
   handleDeleteField: (
     event: React.MouseEventHandler<HTMLButtonElement, MouseEvent>,
     index: number
@@ -284,6 +369,7 @@ type DragAndDropFieldProps = {
 };
 
 export function DragAndDropField({
+  label,
   name,
   value,
   handleOnChange,
@@ -291,10 +377,14 @@ export function DragAndDropField({
   handleDeleteField,
   handleOnDrop,
 }: DragAndDropFieldProps) {
-
   return (
-    <div className="flex" name={name} onDragOver={handleDragOver} onDrop={(e) => handleDrop(e,handleOnDrop)}>
-      <span className="font-semibold w-32">{name}:</span>
+    <div
+      className="flex"
+      name={name}
+      onDragOver={handleDragOver}
+      onDrop={(e) => handleDrop(e, handleOnDrop)}
+    >
+      <span className="inputFieldLabel">{label}:</span>
       <div className="flex flex-col">
         {value.map((val, index) => (
           <div key={index} className="flex items-center">
@@ -310,7 +400,7 @@ export function DragAndDropField({
               name={name}
               value={val.split('\\').pop() || val.split('/').pop()}
               onChange={(e) => handleOnChange(e, index)}
-              className="border rounded py-1 px-2 bg-gray-100 w-64 mt-1 mb-1 mr-1"
+              className="inputField"
               readOnly
             />
             <button

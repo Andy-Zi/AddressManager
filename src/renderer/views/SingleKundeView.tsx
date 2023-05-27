@@ -83,6 +83,7 @@ export default function SingleKundeView() {
         <>
           <form onSubmit={handleSubmit} className="space-y-2">
             <EditableMultipleField
+              label="Name"
               name="Name"
               value={updatedClient.Name}
               handleOnChange={handleChange}
@@ -90,11 +91,13 @@ export default function SingleKundeView() {
               handleDeleteField={handleDeleteField}
             />
             <EditableField
+              label="Kundennummer"
               name="Kundennummer"
               value={updatedClient.Kundennummer}
               handleOnChange={handleChange}
             />
             <EditableMultipleField
+              label="Telefon"
               name="Telefon"
               value={updatedClient.Telefon}
               handleOnChange={handleChange}
@@ -102,6 +105,7 @@ export default function SingleKundeView() {
               handleDeleteField={handleDeleteField}
             />
             <EditableMultipleField
+              label="Mobile"
               name="Mobile"
               value={updatedClient.Mobile}
               handleOnChange={handleChange}
@@ -109,6 +113,7 @@ export default function SingleKundeView() {
               handleDeleteField={handleDeleteField}
             />
             <EditableMultipleField
+              label="Email"
               name="Email"
               value={updatedClient.Email}
               handleOnChange={handleChange}
@@ -116,15 +121,18 @@ export default function SingleKundeView() {
               handleDeleteField={handleDeleteField}
             />
             <UneditableField
+              label="Erstellt am"
               name="ErstelltAm"
               value={updatedClient.ErstelltAm.toLocaleDateString('de-DE')}
             />
             <EditableField
+              label="Straße"
               name="Straße"
               value={updatedClient.Straße}
               handleOnChange={handleChange}
             />
             <EditableOrtField
+              label="Ort"
               ort={updatedClient.Ort}
               handleOnChange={handleChange}
             />

@@ -102,15 +102,21 @@ export default function initAuto(
       ? false
       : null;
 
-  const bsV = new Bremsscheibe({});
-  bsV.Innenbelueftet = dataset.BRESCHEIV ?? '';
-  bsV.Groeße = ''; // TODO get Data
-  car.BremsscheibeVorne = bsV;
+  car.BremsscheibeVorneGroeße = ''; // TODO get Data
+  car.BremsscheibeVorneInnenbelueftet =
+    dataset.BRESCHEIV === 'Innenbelüftet'
+      ? true
+      : dataset.BRESCHEIV === 'nicht Innenbelüftet'
+      ? false
+      : null;
 
-  const bsH = new Bremsscheibe({});
-  bsH.Innenbelueftet = dataset.BRESCHEIH ?? '';
-  bsH.Groeße = ''; // TODO get Data
-  car.BremsscheibeHinten = bsH;
+  car.BremsscheibeHintenGroeße = ''; // TODO get Data
+  car.BremsscheibeHintenInnenbelueftet =
+    dataset.BRESCHEIH === 'Innenbelüftet'
+      ? true
+      : dataset.BRESCHEIH === 'nicht Innenbelüftet'
+      ? false
+      : null;
 
   car.MotorsteuerungTyp = dataset.MOTORSTEU ?? '';
   car.MotorsteuerungWechselintervallKm = dataset.WECHSELIN ?? '';

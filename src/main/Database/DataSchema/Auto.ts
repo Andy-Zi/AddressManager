@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import Bremsscheibe from './Bremsscheibe';
 import Teile from './Teile';
 import Termin from './Termin';
 
@@ -77,9 +76,13 @@ export default class Auto {
 
   public Feststellbremse: string;
 
-  public BremsscheibeVorne: Bremsscheibe;
+  public BremsscheibeVorneInnenbelueftet: boolean | null;
 
-  public BremsscheibeHinten: Bremsscheibe;
+  public BremsscheibeVorneGroeße: string;
+
+  public BremsscheibeHintenInnenbelueftet: boolean | null;
+
+  public BremsscheibeHintenGroeße: string;
 
   public MotorsteuerungTyp: string;
 
@@ -132,10 +135,12 @@ export default class Auto {
     Reifen = '',
     Motor = '',
     Getriebe = '',
-    Partikelfilter = '',
+    Partikelfilter = null,
     Feststellbremse = '',
-    BremsscheibeVorne = new Bremsscheibe({}),
-    BremsscheibeHinten = new Bremsscheibe({}),
+    BremsscheibeVorneInnenbelueftet = null,
+    BremsscheibeVorneGroeße = '',
+    BremsscheibeHintenInnenbelueftet = null,
+    BremsscheibeHintenGroeße = '',
     MotorsteuerungTyp = '',
     MotorsteuerungWechselintervallKm = '',
     MotorsteuerungWechselintervallZeitJahr = '',
@@ -179,10 +184,14 @@ export default class Auto {
     Reifen?: string;
     Motor?: string;
     Getriebe?: string;
-    Partikelfilter?: string;
+    Partikelfilter?: boolean | null;
     Feststellbremse?: string;
-    BremsscheibeVorne?: Bremsscheibe;
-    BremsscheibeHinten?: Bremsscheibe;
+    // BremsscheibeVorne?: Bremsscheibe;
+    // BremsscheibeHinten?: Bremsscheibe;
+    BremsscheibeVorneInnenbelueftet?: boolean | null;
+    BremsscheibeVorneGroeße?: string;
+    BremsscheibeHintenInnenbelueftet?: boolean | null;
+    BremsscheibeHintenGroeße?: string;
     MotorsteuerungTyp?: string;
     MotorsteuerungWechselintervallKm?: string;
     MotorsteuerungWechselintervallZeitJahr?: string;
@@ -228,8 +237,12 @@ export default class Auto {
     this.Getriebe = Getriebe;
     this.Partikelfilter = Partikelfilter;
     this.Feststellbremse = Feststellbremse;
-    this.BremsscheibeVorne = BremsscheibeVorne;
-    this.BremsscheibeHinten = BremsscheibeHinten;
+    // this.BremsscheibeVorne = BremsscheibeVorne;
+    // this.BremsscheibeHinten = BremsscheibeHinten;
+    this.BremsscheibeVorneInnenbelueftet = BremsscheibeVorneInnenbelueftet;
+    this.BremsscheibeVorneGroeße = BremsscheibeVorneGroeße;
+    this.BremsscheibeHintenInnenbelueftet = BremsscheibeHintenInnenbelueftet;
+    this.BremsscheibeHintenGroeße = BremsscheibeHintenGroeße;
     this.MotorsteuerungTyp = MotorsteuerungTyp;
     this.MotorsteuerungWechselintervallKm = MotorsteuerungWechselintervallKm;
     this.MotorsteuerungWechselintervallZeitJahr =

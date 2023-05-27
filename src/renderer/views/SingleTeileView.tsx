@@ -8,9 +8,9 @@ import {
   EditableSchluesselNrField,
   EditableLeistungField,
 } from 'renderer/components/EditableField';
+import Teile from 'main/Database/DataSchema/Teile';
 import Kunde from '../../main/Database/DataSchema/Kunde';
 import Auto from '../../main/Database/DataSchema/Auto';
-import Teile from 'main/Database/DataSchema/Teile';
 
 type SingleViewProps = {
   client: Kunde;
@@ -38,7 +38,10 @@ export default function SingleTeileView() {
     });
   };
 
-  const handleDeleteField = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleDeleteField = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     setupdatedTeile({
       ...updatedTeile,
       [event.target.name]: updatedTeile[event.target.name].filter(
@@ -58,20 +61,35 @@ export default function SingleTeileView() {
     setupdatedTeile(Client?.Autos.find((auto) => auto.id === CarID)?.AutoTeile);
   }, [Client]);
 
-// AutoTeile
-// BremsscheibeHinten
-// BremsscheibeVorne
+  // AutoTeile
+  // BremsscheibeHinten
+  // BremsscheibeVorne
 
   return (
     <div className="SingleView p-6">
       <h1 className="text-2xl font-bold mb-4">SingleView</h1>
       {updatedTeile ? (
         <form onSubmit={handleSubmit} className="space-y-2">
-          <EditableField name="oelbezeichnung" value={updatedTeile.oelbezeichnung} handleOnChange={handleChange} />
-          <EditableField name="oelmenge" value={updatedTeile.oelmenge} handleOnChange={handleChange} />
+          <EditableField
+            label="Ölbezeichnung"
+            name="oelbezeichnung"
+            value={updatedTeile.oelbezeichnung}
+            handleOnChange={handleChange}
+          />
+          <EditableField
+            label="Ölmenge"
+            name="oelmenge"
+            value={updatedTeile.oelmenge}
+            handleOnChange={handleChange}
+          />
           {updatedTeile.TeilListe.map((teil, index) => (
-          // TODO: Add Notizen
-            <EditableField name={teil.Bezeichnung} value={teil.Teilenummer} handleOnChange={handleChange} />
+            // TODO: Add Notizen
+            <EditableField
+              label={teil.Bezeichnung}
+              name={teil.Bezeichnung}
+              value={teil.Teilenummer}
+              handleOnChange={handleChange}
+            />
           ))}
           <button type="submit" className="btn">
             Save

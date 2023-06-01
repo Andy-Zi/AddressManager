@@ -1,6 +1,7 @@
 import City from 'main/Database/DataSchema/City';
 import React, { useState } from 'react';
 import '../styles/components/EditableField.css';
+import Teil from 'main/Database/DataSchema/Teil';
 
 type EditableFieldProps = {
   label: string;
@@ -108,7 +109,16 @@ export function EditableLeistungField({
       <input
         name="PS"
         value={Math.round(value1 * 1.36)}
-        onChange={(e) => handleOnChange({ ...e, target : { ...e.target, name: name1, value: Math.round(e.target.value / 1.36)}})}
+        onChange={(e) =>
+          handleOnChange({
+            ...e,
+            target: {
+              ...e.target,
+              name: name1,
+              value: Math.round(e.target.value / 1.36),
+            },
+          })
+        }
         type="number"
         className="inputFieldSmall"
       />
@@ -415,5 +425,79 @@ export function DragAndDropField({
         ))}
       </div>
     </div>
+  );
+}
+
+type EditableTeileFieldProps = {
+  teile: Teil[];
+  newTeilName: string;
+  handleNewTeilNameChange: (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
+  handleOnChange: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => void;
+  handleAddField: (
+    event: React.MouseEventHandler<HTMLButtonElement, MouseEvent>
+  ) => void;
+  handleDeleteField: (
+    event: React.MouseEventHandler<HTMLButtonElement, MouseEvent>,
+    index: number
+  ) => void;
+};
+
+export function EditableTeileField({
+  teile,
+  newTeilName,
+  handleNewTeilNameChange,
+  handleOnChange,
+  handleAddField,
+  handleDeleteField,
+}: EditableTeileFieldProps) {
+  return (
+    <>
+      {teile.map((teil, index) => (
+        <div className="flex">
+          <span className="inputFieldLabel">{teil.Bezeichnung}:</span>
+          <div key={index} className="flex items-center">
+            <input
+              name="Teilenummer"
+              value={teil.Teilenummer}
+              onChange={(e) => handleOnChange(e, index)}
+              className="inputField"
+            />
+            <button
+              type="button"
+              name={teil.Teilenummer}
+              onClick={(e) => handleDeleteField(e, index)}
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mt-1"
+            >
+              -
+            </button>
+          </div>
+        </div>
+      ))}
+      <div className="flex items-center">
+        <input
+          type="text"
+          value={newTeilName}
+          onChange={handleNewTeilNameChange}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              handleAddField(event);
+            }
+          }}
+          className="border rounded py-1 px-2 bg-gray-100 w-64 mr-1"
+        />
+        <button
+          type="button"
+          onClick={handleAddField}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mt-1 w-12"
+        >
+          +
+        </button>
+      </div>
+    </>
   );
 }

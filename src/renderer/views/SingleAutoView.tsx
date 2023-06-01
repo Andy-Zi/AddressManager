@@ -30,6 +30,11 @@ export default function SingleAutoView() {
     event: React.ChangeEvent<HTMLInputElement>,
     index: number = -1
   ) => {
+    if (event.target.type === 'number') {
+      if (!event.target.value) {
+        return;
+      }
+    }
     if (event.target.type === 'checkbox') {
       const curValue = updatedCar[event.target.name];
 

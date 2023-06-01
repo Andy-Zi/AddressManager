@@ -7,10 +7,11 @@ import {
   UneditableField,
   EditableSchluesselNrField,
   EditableLeistungField,
+  EditableTeileField,
 } from 'renderer/components/EditableField';
 import Teile from 'main/Database/DataSchema/Teile';
 import Kunde from '../../main/Database/DataSchema/Kunde';
-import Auto from '../../main/Database/DataSchema/Auto';
+import Teil from '../../main/Database/DataSchema/Teil';
 
 type SingleViewProps = {
   client: Kunde;
@@ -23,6 +24,7 @@ export default function SingleTeileView() {
   const CarID = obj?.carid;
 
   const [updatedTeile, setupdatedTeile] = useState<Teile>();
+  const [newTeilName, setNewTeilName] = useState('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setupdatedTeile({
@@ -31,11 +33,33 @@ export default function SingleTeileView() {
     });
   };
 
-  const handleAddField = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTeilChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const updatedField = updatedTeile ? updatedTeile.TeilListe : [];
+    updatedField[index][event.target.name] = event.target.value;
     setupdatedTeile({
       ...updatedTeile,
-      [event.target.name]: [...updatedTeile[event.target.name], ''],
+      TeilListe: updatedField,
     });
+  };
+
+  const handleAddField = () => {
+    if (newTeilName.trim() !== '') {
+      const updatedField = updatedTeile ? updatedTeile.TeilListe : [];
+      const newTeil = new Teil({ Bezeichnung: newTeilName });
+      updatedField.push(newTeil);
+      setupdatedTeile({
+        ...updatedTeile,
+        TeilListe: updatedField,
+      });
+      setNewTeilName('');
+    }
+  };
+
+  const handleNewTeilNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTeilName(event.target.value);
   };
 
   const handleDeleteField = (
@@ -44,7 +68,7 @@ export default function SingleTeileView() {
   ) => {
     setupdatedTeile({
       ...updatedTeile,
-      [event.target.name]: updatedTeile[event.target.name].filter(
+      TeilListe: updatedTeile?.TeilListe.filter(
         (_, i) => i !== index
       ),
     });
@@ -60,10 +84,6 @@ export default function SingleTeileView() {
   useEffect(() => {
     setupdatedTeile(Client?.Autos.find((auto) => auto.id === CarID)?.AutoTeile);
   }, [Client]);
-
-  // AutoTeile
-  // BremsscheibeHinten
-  // BremsscheibeVorne
 
   return (
     <div className="SingleView p-6">
@@ -82,15 +102,15 @@ export default function SingleTeileView() {
             value={updatedTeile.oelmenge}
             handleOnChange={handleChange}
           />
-          {updatedTeile.TeilListe.map((teil, index) => (
-            // TODO: Add Notizen
-            <EditableField
-              label={teil.Bezeichnung}
-              name={teil.Bezeichnung}
-              value={teil.Teilenummer}
-              handleOnChange={handleChange}
-            />
-          ))}
+
+          <EditableTeileField
+            teile={updatedTeile.TeilListe}
+            newTeilName={newTeilName}
+            handleNewTeilNameChange={handleNewTeilNameChange}
+            handleOnChange={handleTeilChange}
+            handleAddField={handleAddField}
+            handleDeleteField={handleDeleteField}
+          />
           <button type="submit" className="btn">
             Save
           </button>
